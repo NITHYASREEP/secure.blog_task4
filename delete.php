@@ -1,11 +1,33 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['username'])){
+    header("Location: login.php");
+}
+
 include 'db.php';
+
+// Only admin can delete
+if($_SESSION['role'] != "admin"){
+
+    die("Access Denied!");
+}
 
 $id = $_GET['id'];
 
-$query = "DELETE FROM posts WHERE id=$id";
+// Prepared Statement
+$stmt = $conn->prepare("DELETE FROM posts WHERE id = ?");
 
-mysqli_query($conn, $query);
+$stmt->bind_param("i", $id);
 
-header("Location: index.php");
+if($stmt->execute()){
+
+    header("Location: index.php");
+
+} else {
+
+    echo "Delete Failed!";
+}
+
+$stmt->close();
 ?>

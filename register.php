@@ -1,17 +1,44 @@
 <?php
 include 'db.php';
 
+$message = "";
+
 if(isset($_POST['register'])){
 
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+    $role = "user";
 
-    $query = "INSERT INTO users(username, password)
-              VALUES('$username', '$password')";
+    // Validation
+    if(empty($username) || empty($password)){
 
-    mysqli_query($conn, $query);
+        $message = "All fields are required!";
 
-    header("Location: login.php");
+    } elseif(strlen($password) < 6){
+
+        $message = "Password must be at least 6 characters!";
+
+    } else {
+
+        // Hash password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Prepared Statement
+        $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
+
+        $stmt->bind_param("sss", $username, $hashedPassword, $role);
+
+        if($stmt->execute()){
+
+            $message = "Registration Successful!";
+
+        } else {
+
+            $message = "Registration Failed!";
+        }
+
+        $stmt->close();
+    }
 }
 ?>
 
@@ -19,24 +46,42 @@ if(isset($_POST['register'])){
 <html>
 <head>
     <title>Register</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h2>Register</h2>
+<div class="container">
 
-<form method="POST">
+    <h2>Register</h2>
 
-    Username:<br>
-    <input type="text" name="username" required><br><br>
+    <form method="POST">
 
-    Password:<br>
-    <input type="password" name="password" required><br><br>
+        <input type="text"
+               name="username"
+               placeholder="Username"
+               required>
 
-    <button type="submit" name="register">Register</button>
+        <br><br>
 
-</form>
+        <input type="password"
+               name="password"
+               placeholder="Password"
+               required>
 
-<a href="login.php">Login Here</a>
+        <br><br>
+
+        <button type="submit" name="register">
+            Register
+        </button>
+
+    </form>
+
+    <br>
+
+    <p><?php echo $message; ?></p>
+
+</div>
 
 </body>
 </html>

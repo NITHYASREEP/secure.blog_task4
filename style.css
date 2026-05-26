@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Tangerine:wght@700&family=Poppins:wght@300;400;500;600&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fff7ed, #ffedd5, #fde68a);
+    margin: 0;
+    padding: 40px;
+    color: #5b341f;
+}
+
+.container{
+    width: 80%;
+    max-width: 950px;
+    margin: auto;
+    background: rgba(255,255,255,0.9);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    backdrop-filter: blur(8px);
+}
+
+h2{
+    font-family: 'Tangerine', cursive;
+    font-size: 64px;
+    color: #c2410c;
+    margin-bottom: 20px;
+}
+
+.post{
+    background: linear-gradient(to right, #fff1e6, #ffe4d6);
+    padding: 25px;
+    margin-top: 25px;
+    border-radius: 18px;
+    border: 1px solid #fdba74;
+    transition: 0.3s ease;
+}
+
+.post:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(194,65,12,0.15);
+}
+
+.post h3{
+    font-family: 'Tangerine', cursive;
+    font-size: 42px;
+    color: #9a3412;
+    margin-bottom: 10px;
+}
+
+.post p{
+    font-size: 16px;
+    color: #6b4423;
+    line-height: 1.8;
+}
+
+input{
+    padding: 14px;
+    width: 320px;
+    border: 2px solid #fdba74;
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+    background: #fffaf5;
+    color: #7c2d12;
+}
+
+input:focus{
+    border-color: #ea580c;
+    box-shadow: 0 0 8px rgba(234,88,12,0.3);
+}
+
+button{
+    padding: 14px 20px;
+    background: linear-gradient(to right, #ea580c, #fb923c);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+button:hover{
+    transform: scale(1.05);
+    background: linear-gradient(to right, #c2410c, #f97316);
+}
+
+a{
+    text-decoration: none;
+    color: #c2410c;
+    font-weight: 600;
+    margin-right: 12px;
+    transition: 0.3s;
+}
+
+a:hover{
+    color: #7c2d12;
+}
+
+.pagination{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.pagination button{
+    margin-right: 8px;
+}
+
+form{
+    margin-bottom: 30px;
+}

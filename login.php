@@ -2,25 +2,44 @@
 session_start();
 include 'db.php';
 
+$message = "";
+
 if(isset($_POST['login'])){
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
-    $query = "SELECT * FROM users WHERE username='$username'";
-    $result = mysqli_query($conn, $query);
+    // Validation
+    if(empty($username) || empty($password)){
 
-    $user = mysqli_fetch_assoc($result);
-
-    if($user && password_verify($password, $user['password'])){
-
-        $_SESSION['username'] = $username;
-
-        header("Location: index.php");
+        $message = "All fields are required!";
 
     } else {
 
-        echo "Invalid Username or Password";
+        // Prepared Statement
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+
+        $stmt->bind_param("s", $username);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $user = $result->fetch_assoc();
+
+        if($user && password_verify($password, $user['password'])){
+
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+
+            header("Location: index.php");
+
+        } else {
+
+            $message = "Invalid Username or Password!";
+        }
+
+        $stmt->close();
     }
 }
 ?>
@@ -29,24 +48,44 @@ if(isset($_POST['login'])){
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+<div class="container">
 
 <h2>Login</h2>
 
 <form method="POST">
 
-    Username:<br>
-    <input type="text" name="username" required><br><br>
+    <input type="text"
+           name="username"
+           placeholder="Username"
+           required>
 
-    Password:<br>
-    <input type="password" name="password" required><br><br>
+    <br><br>
 
-    <button type="submit" name="login">Login</button>
+    <input type="password"
+           name="password"
+           placeholder="Password"
+           required>
+
+    <br><br>
+
+    <button type="submit" name="login">
+        Login
+    </button>
 
 </form>
 
+<br>
+
+<p><?php echo $message; ?></p>
+
 <a href="register.php">Register Here</a>
+
+</div>
 
 </body>
 </html>
