@@ -58,7 +58,7 @@ $totalPages = ceil($totalPosts / $limit);
 <body>
 
 <div class="container">
-
+<h1>Blog Management System</h1>
 <form method="GET">
 
     <input type="text"
@@ -114,5 +114,8 @@ $totalPages = ceil($totalPosts / $limit);
 <?php } ?>
 
 </div>
+<footer>
+    Developed by Nithyasree Panda | Apex Planet Final Project
+</footer>
 </body>
 </html>
